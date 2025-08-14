@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProfeKids • Educação Infantil Personalizada</title>
+  <meta name="description" content="Professora de educação infantil com aulas lúdicas, pacotes acessíveis, atendimento personalizado e acompanhamento para famílias." />
+  <style>
+    :root{
+      --brand-1:#0ea5e9;   /* azul claro (062 vibe) */
+      --brand-2:#38bdf8;   /* azul/sky */
+      --brand-3:#2563eb;   /* azul destaque */
+      --bg:#f8fafc;
+      --card:#ffffff;
+      --ink:#0f172a;
+      --muted:#64748b;
+      --good:#16a34a;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --radius:18px;
+      --shadow:0 10px 30px rgba(2, 132, 199, .12);
+      --shadow-soft:0 6px 18px rgba(2, 132, 199, .10);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; color:var(--ink); background:var(--bg); }
+    a { color: var(--brand-3); text-decoration: none; }
+    img { max-width:100%; display:block; }
+    /* ===== Topbar / Header ===== */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: linear-gradient(90deg, var(--brand-1), var(--brand-2));
+      box-shadow: none; transition: box-shadow .25s ease, transform .25s ease;
+    }
+    .topbar.scrolled { box-shadow: var(--shadow-soft); }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    .nav {
+      display:flex; align-items:center; justify-content:space-between;
+      height:78px;
+    }
+    .brand { display:flex; align-items:center; gap:12px; color:#fff; font-weight:800; letter-spacing:.3px; }
+    .brand .logo {
+      width:44px; height:44px; border-radius:50%;
+      background:#fff; display:grid; place-items:center; color:var(--brand-3);
+      font-weight:900; box-shadow: var(--shadow);
+    }
+    .menu { display:flex; gap:26px; align-items:center; }
+    .menu a { color:#fff; font-weight:600; opacity:.95; }
+    .cta { background:#fff; color:var(--brand-3); padding:10px 16px; border-radius:999px; font-weight:800; box-shadow: var(--shadow); }
+    .burger { display:none; width:36px; height:36px; border:2px solid rgba(255,255,255,.9); border-radius:10px; position:relative; }
+    .burger span, .burger::before, .burger::after {
+      content:""; position:absolute; left:6px; right:6px; height:2px; background:#fff; transition: transform .25s ease;
+    }
+    .burger span { top:16px; }
+    .burger::before { top:10px; }
+    .burger::after { top:22px; }
+    .mobileMenu { display:none; background:linear-gradient(180deg, var(--brand-2), var(--brand-1)); }
+    .mobileMenu a { display:block; padding:14px 20px; color:#fff; font-weight:600; border-top:1px solid rgba(255,255,255,.1); }
+    /* ===== Hero ===== */
+    .hero {
+      background:
+        radial-gradient(1000px 600px at 80% -10%, rgba(59,130,246,.25), transparent 60%),
+        linear-gradient(180deg, #ffffff, #f1f9ff);
+      padding: 40px 0 70px;
+    }
+    .hero-inner {
+      display:grid; grid-template-columns: 1.2fr 1fr; gap:34px; align-items:center;
+    }
+    .pill {
+      display:inline-flex; align-items:center; gap:10px; background:#e0f2fe; color:#075985; border-radius:999px; padding:8px 14px; font-weight:700;
+    }
+    .hero h1 { margin:14px 0 10px; font-size: clamp(28px, 4vw, 44px); line-height:1.1; }
+    .hero p { color:var(--muted); font-size: clamp(14px, 2.1vw, 18px); }
+    .hero-card {
+      background:var(--card); border-radius: var(--radius); padding:22px; box-shadow: var(--shadow); border:1px solid #e6f4ff;
+    }
+    .hero-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:12px; margin-top:14px; }
+    .hero-grid .hitem {
+      background: #f0f9ff; border:1px dashed #cbe9ff; border-radius: 14px; padding:14px;
+      font-weight:700; color:#0369a1; text-align:center;
+    }
+    /* ===== Sections ===== */
+    section { padding: 70px 0; }
+    .title { text-align:center; margin:0 0 26px; }
+    .subtitle { text-align:center; color:var(--muted); margin-top:-8px; margin-bottom:34px;}
+    .grid3 { display:grid; grid-template-columns: repeat(3,1fr); gap:20px; }
+    .card {
+      background:var(--card); border-radius: var(--radius); padding:22px; border:1px solid #e6f4ff; box-shadow: var(--shadow-soft);
+    }
+    .card h3 { margin:6px 0 8px; }
+    .tag { display:inline-block; background:#e0f2fe; color:#075985; padding:6px 10px; border-radius: 999px; font-weight:700; font-size:12px; }
+    /* ===== Pacotes ===== */
+    .price { font-size: 28px; font-weight:900; color: var(--brand-3); }
+    .features { display:grid; gap:8px; margin:10px 0 16px; color:var(--ink); }
+    .features li { list-style: '✓  '; padding-left:6px; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 16px; border-radius:12px; font-weight:800; cursor:pointer; border:0; }
+    .btn-primary { background: var(--brand-3); color:#fff; }
+    .btn-outline { background:#fff; color:var(--brand-3); border:2px solid var(--brand-3); }
+    .plan { position:relative; overflow:hidden }
+    .plan.popular::after {
+      content:"MAIS ESCOLHIDO"; position:absolute; top:14px; right:-30px; transform: rotate(15deg);
+      background: linear-gradient(90deg, var(--brand-3), var(--brand-2)); color:#fff; font-weight:900; font-size:12px; padding:6px 34px;
+    }
+    /* ===== Depoimentos (carrossel) ===== */
+    .carousel { position:relative; overflow:hidden; border-radius: var(--radius); }
+    .track { display:flex; transition: transform .5s ease; }
+    .slide { flex: 0 0 100%; padding:26px; background:#fff; border:1px solid #e6f4ff; }
+    .quote { font-style: italic; color:var(--ink); }
+    .author { margin-top:10px; color: var(--muted); font-weight:700; }
+    .ctrl { position:absolute; top:50%; transform:translateY(-50%); background:#fff; border:1px solid #e6f4ff; border-radius:12px; width:42px; height:42px; display:grid; place-items:center; cursor:pointer; }
+    .ctrl.left { left:10px; } .ctrl.right { right:10px; }
+    /* ===== Contato ===== */
+    .form { display:grid; grid-template-columns: repeat(2, 1fr); gap:16px; }
+    .form .full { grid-column:1 / -1; }
+    label { font-weight:700; font-size:14px; color:#0b466b; }
+    input, textarea, select {
+      padding:12px 14px; border:1px solid #cbe9ff; border-radius:12px; background:#fff; outline:none;
+    }
+    textarea { resize: vertical; min-height:120px; }
+    .map { border: 0; width:100%; height: 320px; border-radius: 16px; box-shadow: var(--shadow-soft); }
+    /* ===== Barra inferior (sticky info) ===== */
+    .bar-bottom {
+      position: fixed; bottom:0; left:0; right:0; z-index: 40;
+      background: #0b3b66; color:#fff; padding:10px 16px;
+      display:flex; gap:14px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    }
+    .bar-bottom a { color:#fff; font-weight:700; }
+    .bb-col { display:flex; align-items:center; gap:10px; }
+    .bb-hide { display:none; }
+    /* ===== Floating WhatsApp ===== */
+    .float-wa {
+      position: fixed; right:18px; bottom:80px; z-index:45; width:58px; height:58px; border-radius:50%;
+      display:grid; place-items:center; background:#22c55e; color:#fff; box-shadow: var(--shadow);
+      font-weight:900; font-size:22px;
+    }
+    /* ===== Footer ===== */
+    footer { background:#0a2d4d; color:#cfe9ff; padding:28px 0 78px; margin-top:40px; }
+    footer .footline {
+      border-top:1px solid rgba(255,255,255,.12); margin-top:14px; padding-top:14px;
+      display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap;
+    }
+    footer a { color:#fff; opacity:.95; }
+    /* ===== Modal ===== */
+    .modal {
+      position:fixed; inset:0; background: rgba(2,6,23,.55); display:none; align-items:center; justify-content:center; padding:20px; z-index:60;
+    }
+    .modal.show{ display:flex; }
+    .modal .box { background:#fff; border-radius:16px; padding:20px; max-width:520px; width:100%; box-shadow: var(--shadow); }
+    .modal .head { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    /* ===== Utilities ===== */
+    .muted { color: var(--muted); }
+    .center { text-align:center; }
+    /* ===== Responsive ===== */
+    @media (max-width: 980px){
+      .hero-inner { grid-template-columns: 1fr; }
+      .grid3 { grid-template-columns: 1fr; }
+      .form { grid-template-columns: 1fr; }
+      .menu { display:none; }
+      .burger { display:block; }
+      .bb-hide { display:inline-flex; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar" id="topbar">
+    <div class="wrap">
+      <nav class="nav">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">PK</div>
+          <div>
+            <div style="font-size:18px; line-height:1;">ProfeKids</div>
+            <small style="opacity:.9;">Educação Infantil</small>
+          </div>
+        </div>
+        <div class="menu" id="menu">
+          <a href="#sobre">Sobre</a>
+          <a href="#pacotes">Pacotes</a>
+          <a href="#institucional">Institucional</a>
+          <a href="#depoimentos">Depoimentos</a>
+          <a href="#contato" class="cta">Fale Conosco</a>
+        </div>
+        <button class="burger" id="burger" aria-label="Abrir menu"><span></span></button>
+      </nav>
+    </div>
+    <div class="mobileMenu" id="mobileMenu">
+      <a href="#sobre">Sobre</a>
+      <a href="#pacotes">Pacotes</a>
+      <a href="#institucional">Institucional</a>
+      <a href="#depoimentos">Depoimentos</a>
+      <a href="#contato">Contato</a>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="pill">Aprender brincando 👧🧒</span>
+        <h1>Educação infantil com afeto, método e resultados</h1>
+        <p>Atendimento personalizado para crianças a partir de 3 anos. Aulas lúdicas, alfabetização, reforço, música, artes e desenvolvimento socioemocional — alinhado à BNCC.</p>
+        <div class="hero-grid">
+          <div class="hitem">Planos a partir de R$ 299/mês</div>
+          <div class="hitem">Acompanhamento para as famílias</div>
+          <div class="hitem">Relatórios mensais de progresso</div>
+          <div class="hitem">Atendimento em Trindade (GO)</div>
+        </div>
+        <div style="display:flex; gap:12px; margin-top:16px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="#pacotes">Ver Pacotes</a>
+          <a class="btn btn-outline" href="https://wa.me/5562993735849?text=Ol%C3%A1%2C%20quero%20saber%20sobre%20os%20planos%20da%20ProfeKids" target="_blank" rel="noopener">Falar no WhatsApp</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1200&auto=format&fit=crop" alt="Crianças estudando com materiais lúdicos" style="border-radius:14px;" />
+        <p class="muted center" style="margin-top:10px;">Ambiente acolhedor, seguro e criativo.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sobre -->
+  <section id="sobre">
+    <div class="wrap">
+      <h2 class="title">Sobre a ProfeKids</h2>
+      <p class="subtitle">Sou professora especializada em educação infantil. Minha proposta une ludicidade, rotina saudável e objetivos claros de aprendizagem, respeitando o tempo e a singularidade de cada criança.</p>
+      <div class="grid3">
+        <div class="card">
+          <span class="tag">Metodologia</span>
+          <h3>Aprender fazendo</h3>
+          <p class="muted">Atividades práticas, projetos temáticos e jogos pedagógicos para estimular curiosidade, linguagem, lógica e expressão artística.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Acompanhamento</span>
+          <h3>Família por perto</h3>
+          <p class="muted">Encontros de alinhamento e relatórios mensais de progresso com metas simples e observáveis.</p>
+        </div>
+        <div class="card">
+          <span class="tag">Inclusão</span>
+          <h3>Respeito e acolhimento</h3>
+          <p class="muted">Práticas inclusivas e adaptadas, com foco no desenvolvimento integral e no bem-estar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pacotes -->
+  <section id="pacotes">
+    <div class="wrap">
+      <h2 class="title">Pacotes e Valores</h2>
+      <p class="subtitle">Escolha o plano ideal para sua família. Sem fidelidade e com reposição em caso de imprevistos (mediante disponibilidade).</p>
+      <div class="grid3">
+        <div class="card plan">
+          <h3>Plano <strong>Básico</strong></h3>
+          <div class="price">R$ 299/mês</div>
+          <ul class="features">
+            <li>2 aulas/semana (60 min)</li>
+            <li>Alfabetização e ludicidade</li>
+            <li>Relatório bimestral</li>
+          </ul>
+          <button class="btn btn-outline contratar" data-plano="Básico">Contratar</button>
+        </div>
+
+        <div class="card plan popular">
+          <h3>Plano <strong>Intermediário</strong></h3>
+          <div class="price">R$ 449/mês</div>
+          <ul class="features">
+            <li>3 aulas/semana (60 min)</li>
+            <li>Artes + música + leitura</li>
+            <li>Relatório mensal + tutorias</li>
+          </ul>
+          <button class="btn btn-primary contratar" data-plano="Intermediário">Contratar</button>
+        </div>
+
+        <div class="card plan">
+          <h3>Plano <strong>Avançado</strong></h3>
+          <div class="price">R$ 699/mês</div>
+          <ul class="features">
+            <li>5 aulas/semana (60 min)</li>
+            <li>Acompanhamento individual</li>
+            <li>Plano de desenvolvimento</li>
+          </ul>
+          <button class="btn btn-outline contratar" data-plano="Avançado">Contratar</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <span class="tag">Avulso</span>
+        <h3>Aula Particular</h3>
+        <p class="muted">Para necessidades pontuais.</p>
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <div><strong>R$ 80/hora</strong></div>
+          <button class="btn btn-outline contratar" data-plano="Aula Particular">Agendar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Institucional -->
+  <section id="institucional">
+    <div class="wrap">
+      <h2 class="title">Missão • Visão • Valores • Ética</h2>
+      <div class="grid3">
+        <div class="card">
+          <h3>Missão</h3>
+          <p>Ensinar com amor, segurança e método, promovendo o desenvolvimento integral e o prazer por aprender.</p>
+        </div>
+        <div class="card">
+          <h3>Visão</h3>
+          <p>Ser referência em educação infantil personalizada e lúdica em Trindade, em parceria com as famílias.</p>
+        </div>
+        <div class="card">
+          <h3>Valores</h3>
+          <p>Respeito • Criatividade • Empatia • Inclusão • Transparência • Ética educacional.</p>
+        </div>
+      </div>
+      <div class="card" style="margin-top:20px;">
+        <h3>Ética</h3>
+        <p class="muted">Compromisso com a segurança e bem-estar das crianças; comunicação transparente com responsáveis; cumprimento de horários e confidencialidade.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Depoimentos -->
+  <section id="depoimentos">
+    <div class="wrap">
+      <h2 class="title">O que as famílias dizem</h2>
+      <div class="carousel" id="carousel">
+        <div class="track" id="track">
+          <div class="slide">
+            <p class="quote">“A ProfeKids transformou a rotina da nossa filha. As atividades são criativas e ela espera ansiosa pelos dias de aula.”</p>
+            <div class="author">— Maria e Paulo, pais da Ana (5)</div>
+          </div>
+          <div class="slide">
+            <p class="quote">“Relatórios claros e acompanhamento muito próximo. Vimos evolução real na leitura e na socialização.”</p>
+            <div class="author">— Luiza, mãe do Pedro (6)</div>
+          </div>
+          <div class="slide">
+            <p class="quote">“Atendimento acolhedor e profissional. Recomendo o plano intermediário, excelente custo-benefício.”</p>
+            <div class="author">— Carlos, pai da Júlia (4)</div>
+          </div>
+        </div>
+        <button class="ctrl left" id="prev" aria-label="Anterior">‹</button>
+        <button class="ctrl right" id="next" aria-label="Próximo">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contato -->
+  <section id="contato">
+    <div class="wrap">
+      <h2 class="title">Contato e Localização</h2>
+      <p class="subtitle">Tire dúvidas, solicite uma aula experimental e receba o plano pedagógico.</p>
+      <form class="form" id="formContato">
+        <div class="full">
+          <label for="plano">Plano de interesse</label>
+          <select id="plano" name="plano">
+            <option value="Básico">Básico</option>
+            <option value="Intermediário" selected>Intermediário</option>
+            <option value="Avançado">Avançado</option>
+            <option value="Aula Particular">Aula Particular</option>
+          </select>
+        </div>
+        <div>
+          <label for="nome">Nome do responsável</label>
+          <input id="nome" name="nome" placeholder="Seu nome" required />
+        </div>
+        <div>
+          <label for="telefone">Telefone/WhatsApp</label>
+          <input id="telefone" name="telefone" placeholder="(62) 9 9999-9999" />
+        </div>
+        <div class="full">
+          <label for="email">E-mail</label>
+          <input id="email" name="email" type="email" placeholder="voce@email.com" required />
+        </div>
+        <div class="full">
+          <label for="mensagem">Mensagem</label>
+          <textarea id="mensagem" name="mensagem" placeholder="Conte um pouco sobre a criança, idade e objetivos."></textarea>
+        </div>
+        <div class="full" style="display:flex; gap:12px; flex-wrap:wrap;">
+          <button class="btn btn-primary" type="submit">Enviar mensagem</button>
+          <a id="btnWhats" class="btn btn-outline" target="_blank" rel="noopener">Enviar no WhatsApp</a>
+        </div>
+      </form>
+
+      <div style="margin-top:28px;">
+        <iframe class="map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Trindade%2C+GO&output=embed">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="wrap">
+      <div style="display:grid; grid-template-columns: 1.2fr 1fr; gap:20px;">
+        <div>
+          <h3 style="margin:0 0 10px; color:#fff;">ProfeKids</h3>
+          <p class="muted">Educação infantil personalizada em Goiânia. Aulas lúdicas com foco em alfabetização, artes e desenvolvimento socioemocional.</p>
+        </div>
+        <div>
+          <h4 style="margin:0 0 6px; color:#fff;">Atendimento</h4>
+          <p class="muted">Seg a Sex • 8h às 18h</p>
+          <p class="muted">Trindade, GO</p>
+        </div>
+      </div>
+      <div class="footline">
+        <div>© <span id="year"></span> ProfeKids • Todos os direitos reservados</div>
+        <div>📍 Trindade, GO</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Barra inferior fixa -->
+  <div class="bar-bottom">
+    <div class="wrap" style="display:flex; width:100%; gap:12px; align-items:center; justify-content:space-between; flex-wrap:wrap;">
+      <div class="bb-col">
+        <span>📞</span><a href="https://wa.me/5562993735849?text=Ol%C3%A1%2C%20gostaria%20de%20informac%C3%B5es%20da%20ProfeKids" target="_blank">WhatsApp (62) 9 9373-5849</a>
+      </div>
+      <div class="bb-col bb-hide">
+        <span>✉️</span><a href="mailto:contato@profekids.com.br">contato@profekids.com.br</a>
+      </div>
+      <div class="bb-col">
+        <span>📍</span><span>Trindade • GO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating WhatsApp -->
+  <a class="float-wa" href="https://wa.me/5562993735849?text=Ol%C3%A1%2C%20quero%20saber%20sobre%20os%20planos%20da%20ProfeKids" target="_blank" aria-label="Abrir WhatsApp">🟢</a>
+
+  <!-- Modal de contratação -->
+  <div class="modal" id="modal">
+    <div class="box">
+      <div class="head">
+        <h3 id="modalTitle" style="margin:0;">Contratar plano</h3>
+        <button id="closeModal" class="btn btn-outline">Fechar</button>
+      </div>
+      <p class="muted">Preencha seus dados ou fale direto no WhatsApp.</p>
+      <form class="form" id="formModal">
+        <div class="full">
+          <label for="m_plano">Plano</label>
+          <input id="m_plano" readonly />
+        </div>
+        <div>
+          <label for="m_nome">Nome</label>
+          <input id="m_nome" placeholder="Seu nome" required />
+        </div>
+        <div>
+          <label for="m_email">E-mail</label>
+          <input id="m_email" type="email" placeholder="voce@email.com" required />
+        </div>
+        <div class="full">
+          <label for="m_msg">Mensagem</label>
+          <textarea id="m_msg" placeholder="Idade da criança, objetivos, melhores horários..."></textarea>
+        </div>
+        <div class="full" style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="btn btn-primary" type="submit">Enviar</button>
+          <a id="m_whats" class="btn btn-outline" target="_blank">WhatsApp</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Ano no footer
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Sticky shadow on scroll
+    const topbar = document.getElementById('topbar');
+    window.addEventListener('scroll', () => {
+      topbar.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // Mobile menu
+    const burger = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    burger.addEventListener('click', () => {
+      mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.style.display = 'none';
+    }));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if(id.length > 1){
+          e.preventDefault();
+          document.querySelector(id).scrollIntoView({ behavior:'smooth', block:'start' });
+        }
+      });
+    });
+
+    // Carousel
+    const track = document.getElementById('track');
+    const slides = Array.from(track.children);
+    let idx = 0;
+    function go(i){
+      idx = (i + slides.length) % slides.length;
+      track.style.transform = `translateX(-${idx*100}%)`;
+    }
+    document.getElementById('prev').onclick = () => go(idx-1);
+    document.getElementById('next').onclick = () => go(idx+1);
+    setInterval(()=>go(idx+1), 6500);
+
+    // Modal contratar
+    const modal = document.getElementById('modal');
+    const mPlano = document.getElementById('m_plano');
+    const mWhats = document.getElementById('m_whats');
+    const btnWhats = document.getElementById('btnWhats');
+    document.querySelectorAll('.contratar').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const plano = btn.dataset.plano;
+        document.getElementById('modalTitle').textContent = `Contratar: Plano ${plano}`;
+        mPlano.value = plano;
+        updateModalWhats();
+        modal.classList.add('show');
+      });
+    });
+    document.getElementById('closeModal').addEventListener('click', ()=> modal.classList.remove('show'));
+    modal.addEventListener('click', (e)=> { if(e.target === modal) modal.classList.remove('show'); });
+
+    // Helpers WhatsApp
+    function buildWhatsURL(text){
+      const base = "https://wa.me/5562993735849?text=";
+      return base + encodeURIComponent(text);
+    }
+    function updateModalWhats(){
+      const text = `Ol\u00e1, quero contratar o plano ${mPlano.value} da ProfeKids.`;
+      mWhats.href = buildWhatsURL(text);
+    }
+    // Modal form submit (fake)
+    document.getElementById('formModal').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      alert('Recebemos sua solicitação! Em breve retornaremos.');
+      modal.classList.remove('show');
+    });
+
+    // Contato principal: monta link do Whats conforme o formulário
+    const formContato = document.getElementById('formContato');
+    formContato.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      alert('Mensagem enviada! Entraremos em contato por e-mail.');
+      // Simples persistência local (prefill na próxima)
+      localStorage.setItem('profekids_contact', JSON.stringify({
+        nome: formContato.nome.value,
+        email: formContato.email.value,
+        telefone: formContato.telefone.value,
+        plano: formContato.plano.value,
+        mensagem: formContato.mensagem.value
+      }));
+      formContato.reset();
+    });
+    function updateBtnWhats(){
+      const nome = document.getElementById('nome').value || 'Responsável';
+      const plano = document.getElementById('plano').value;
+      const msg = document.getElementById('mensagem').value || '';
+      const text = `Ol\u00e1! Sou ${nome}. Tenho interesse no plano ${plano} da ProfeKids. ${msg}`.trim();
+      btnWhats.href = buildWhatsURL(text);
+    }
+    ['nome','plano','mensagem'].forEach(id => document.getElementById(id).addEventListener('input', updateBtnWhats));
+    updateBtnWhats();
+
+    // Prefill com localStorage
+    const stored = localStorage.getItem('profekids_contact');
+    if(stored){
+      try{
+        const d = JSON.parse(stored);
+        if(d.nome) document.getElementById('nome').value = d.nome;
+        if(d.email) document.getElementById('email').value = d.email;
+        if(d.telefone) document.getElementById('telefone').value = d.telefone;
+        if(d.plano) document.getElementById('plano').value = d.plano;
+        if(d.mensagem) document.getElementById('mensagem').value = d.mensagem;
+        updateBtnWhats();
+      }catch(e){}
+    }
+  </script>
+</body>
+</html>
